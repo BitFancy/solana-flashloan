@@ -17,7 +17,7 @@ pub mod flashloan {
     pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
         let flashloan = &mut ctx.accounts.flashloan;
 
-        flashloan.token_authority_bump = *ctx.bumps.get("token_authority").unwrap();
+        flashloan.token_authority_bump = ctx.bumps["token_authority"];
         flashloan.authority = ctx.accounts.authority.key();
 
         Ok(())
@@ -27,7 +27,7 @@ pub mod flashloan {
     pub fn add_pool(ctx: Context<AddPool>, fee: u32, discounted_fee: u32) -> Result<()> {
         let pool = &mut ctx.accounts.pool;
 
-        pool.bump = *ctx.bumps.get("pool").unwrap();
+        pool.bump = ctx.bumps["pool"];
         pool.borrowing = false;
         pool.token_mint = ctx.accounts.token_mint.key();
         pool.pool_token = ctx.accounts.pool_token.key();
