@@ -17,7 +17,7 @@ pub mod flashloan {
     pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
         let flashloan = &mut ctx.accounts.flashloan;
 
-        flashloan.token_authority_bump = *ctx.bumps.token_authority().unwrap();
+        flashloan.token_authority_bump = *ctx.bumps.get("token_authority").unwrap();
         flashloan.authority = ctx.accounts.authority.key();
 
         Ok(())
@@ -114,7 +114,7 @@ pub mod flashloan {
             ctx.accounts.token_program.to_account_info(),
             Burn {
                 mint: ctx.accounts.lp_token_mint.to_account_info(),
-                to: ctx.accounts.user_lp_token.to_account_info(),
+                from: ctx.accounts.user_lp_token.to_account_info(),
                 authority: ctx.accounts.token_authority.to_account_info(),
             },
             singer_seeds,
