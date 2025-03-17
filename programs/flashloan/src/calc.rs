@@ -16,7 +16,6 @@ pub fn proportional(amount: u64, numerator: u64, denominator: u64) -> Result<u64
         .map_err(|_| error!(FlashLoanError::CalculationFailure))
 }
 
-/// calculate amount*numerator/denominator
 #[inline] //alias for proportional
 pub fn value_from_shares(
     shares: u64,
