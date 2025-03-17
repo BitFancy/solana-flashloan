@@ -19,3 +19,4 @@ default = []
 anchor-lang = "0.23.0"
 anchor-spl = "0.23.0"
 sha2-const = "0.1.2"
+proc-macro2 = "1.0.56"
