@@ -17,7 +17,7 @@ pub mod flashloan {
     pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
         let flashloan = &mut ctx.accounts.flashloan;
 
-        flashloan.token_authority_bump = *ctx.bumps.get("token_authority").unwrap();
+        flashloan.token_authority_bump = *ctx.bumps.token_authority.unwrap();
         flashloan.authority = ctx.accounts.authority.key();
 
         Ok(())
