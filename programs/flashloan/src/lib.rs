@@ -13,21 +13,24 @@ declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
 pub mod flashloan {
     use crate::calc::{shares_from_value, value_from_shares};
     use super::*;
-
-    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
+          pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
         let flashloan = &mut ctx.accounts.flashloan;
-
-        flashloan.token_authority_bump = ctx.bumps["token_authority"];
+    
+        // Get the bump directly from the context
+        let token_authority_bump = ctx.accounts.token_authority.to_account_info().data.borrow()[0];
+        flashloan.token_authority_bump = token_authority_bump;
         flashloan.authority = ctx.accounts.authority.key();
 
         Ok(())
-    }
+}
 
-    /// Add pool for a given token mint, setup a pool, token account and lp token mint
-    pub fn add_pool(ctx: Context<AddPool>, fee: u32, discounted_fee: u32) -> Result<()> {
+/// Add pool for a given token mint, setup a pool, token account and lp token mint
+pub fn add_pool(ctx: Context<AddPool>, fee: u32, discounted_fee: u32) -> Result<()> {
         let pool = &mut ctx.accounts.pool;
-
-        pool.bump = ctx.bumps["pool"];
+    
+        // Get the bump directly from the context
+        let pool_bump = ctx.accounts.pool.to_account_info().data.borrow()[0];
+        pool.bump = pool_bump;
         pool.borrowing = false;
         pool.token_mint = ctx.accounts.token_mint.key();
         pool.pool_token = ctx.accounts.pool_token.key();
@@ -36,7 +39,7 @@ pub mod flashloan {
         pool.discounted_fee = Fee::from_basis_points(discounted_fee);
 
         Ok(())
-    }
+}
 
     /// Receive tokens and mint lp tokens
     pub fn deposit(ctx: Context<Deposit>, amount: u64) -> Result<()> {
